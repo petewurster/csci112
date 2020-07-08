@@ -13,7 +13,7 @@ public interface MergeSort {
      *Merges two pre-sorted arrays
      * @param array1 a smaller pre-sorted array
      * @param array2 another smaller pre-sorted array
-     * @return final merged array
+     * @return final merged array of ints
      */
     static int[] merge(int[] array1, int[] array2) {
         //larger array to hold merged arrays
@@ -49,7 +49,7 @@ public interface MergeSort {
 
     /**
      * Sort an array of ints with bubble sort algorithm
-     * @param array
+     * @param array to be sorted
      */
     static void bubbleSort(int[] array) {
         //iterate over entire array, index is not used.  this loop is needed because a worst case

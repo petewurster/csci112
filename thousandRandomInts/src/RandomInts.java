@@ -1,15 +1,20 @@
+/*
+RandomInts.java
+2020-07-07 pWurster
+
+class blueprint for a fully encapsulated collection of ints
+ */
+
 import java.util.Random;
 
 
 public class RandomInts implements MergeSort{
-    /*
-    class constants are used to set defaults
-     */
+    //class constants are used to set defaults
     public static final int LENGTH = 1000;
     public static final int MIN = 1;
     public static final int MAX = 10;
 
-    //
+    //member properties
     private int[] array;
     private int[] tally;
     private int length;
@@ -65,8 +70,9 @@ public class RandomInts implements MergeSort{
     }
 
 
-
-    //return a new sorted copy of the array; object's collection remains unaltered
+    /**
+     * @return a new sorted copy of the array; object's collection remains unaltered
+     */
     public int[] sorted() {
         //split the collection into two smaller arrays
         int[] array1 = new int[this.length / 2];
@@ -123,4 +129,4 @@ public class RandomInts implements MergeSort{
 
 
 
-}//end class
+}

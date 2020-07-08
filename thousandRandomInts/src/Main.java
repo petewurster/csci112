@@ -7,13 +7,6 @@ creates an object that holds 1000 ints and some information about those ints
  */
 
 
-import java.io.File;
-import java.io.PrintWriter;
-
-
-/**
- *
- */
 public class Main {
     //path to output file as a constant
     public static final String OUTFILE = "results.txt";
@@ -34,7 +27,7 @@ public class Main {
 
 
 
-
+    //prints data to file as required by assignment
     public static void printToFile(RandomInts myInts) {
         try{
             //set up file handling
@@ -59,13 +52,13 @@ public class Main {
     }
 
 
-
+    //helper function that stringifies an array
     public static String allValues(int[] array) {
-        String str = "--> ";
+        String str = "--> [ ";
         for (int value: array) {
-            str += value + ", ";
+            str += value + " ";
         }
-        return str;
+        return str + "]";
     }
 
 }
