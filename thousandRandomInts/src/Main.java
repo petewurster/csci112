@@ -58,7 +58,7 @@ public class Main {
         for (int value: array) {
             str += value + " ";
         }
-        return str + "]";
+        return str + " ]";
     }
 
 }
