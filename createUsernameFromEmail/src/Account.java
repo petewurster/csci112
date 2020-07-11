@@ -1,6 +1,6 @@
 /**
 Account.java
-2020-07-08 pWurster
+2020-07-10 pWurster
 
 this is a class designed to (eventually) be a self contained account creation module
 password hashes are currently written to file, but the intent is to eventually store these
@@ -21,8 +21,8 @@ import javax.xml.bind.DatatypeConverter;
 
 public class Account {
 
-    //output file path
-    public static final String OUTFILE = "hashes.txt";
+    public static final String OUTFILE = "hashes.txt";      //output file path
+    public static final String VALID_EMAIL = "[a-zA-Z0-9]+@[a-zA-Z0-9]+[.]edu";     //regex
 
     //basic members
     private String userName;
@@ -54,15 +54,31 @@ public class Account {
 
     //strips user name from email address
     private String stripNameFromEmail() {
-        return this.getEmail().replaceAll("@.+[.]edu", "");
+        //This code can be replaced with a simple regex replacement
+        int index = -1;
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@') index = i;
+        }
+        return email.substring(0, index);
+
+
+        //like this one!
+        /*  return this.getEmail().replaceAll("@.+[.]edu", "");  */
     }
 
 
 
     //valid email test
     private boolean validEmail(String email) {
-        String pattern = "[a-zA-Z0-9]+@[a-zA-Z0-9]+[.]edu";
-        return email.matches(pattern);
+        //This code can be replaced with a simple regex match
+        int index = -1;
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@') index = i;
+        }
+        return index != -1 && email.length() > 4 && email.substring(email.length() - 4).contains(".edu");
+
+        //like this one!
+        /*  return email.matches(VALID_EMAIL);  */
     }
 
 
