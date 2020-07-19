@@ -1,6 +1,8 @@
 /*
 ArrayController.java
 2020-07-15 pWurster
+
+This class encapsulates an array of (CellPhone) objects and provides functionality to access those objects
  */
 package pw;
 

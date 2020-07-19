@@ -1,6 +1,8 @@
 /*
 ArrayControllerMenu.java
 2020-07-18 pWurster
+
+This object serves as a driver program to put the ArrayController through its paces
  */
 package pw;
 
