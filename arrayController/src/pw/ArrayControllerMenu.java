@@ -14,6 +14,18 @@ public class ArrayControllerMenu {
     private ArrayController phoneList = new ArrayController();
     private String[] message = new String[10];
     private Scanner rawInput = new Scanner(System.in);
+    
+    private final String[] menu = new String[]{
+            "\n-------------------------",
+            "Menu for Cell Phone array",
+            "-------------------------",
+            "[1] Show all items",
+            "[2] Append data from file",
+            "[3] Add an item",
+            "[4] Search by model OR index",
+            "[5] Delete an item by model OR index",
+            "[6] Save data to file",
+            "[7] Quit"};
 
     ArrayControllerMenu() {
         //use default values
@@ -23,7 +35,7 @@ public class ArrayControllerMenu {
         //menu loop
         while (true) {
             try {
-                message = showMenu();
+                message = getMenu();
                 int choice = Integer.parseInt(grabInput(message));
 
                 //handle selections
@@ -60,10 +72,8 @@ public class ArrayControllerMenu {
 
 
     //show menu
-    private String[] showMenu() {
-        return new String[]{"\n-------------------------", "Menu for Cell Phone array", "-------------------------",
-                "[1] Show all items", "[2] Append data from file", "[3] Add an item", "[4] Search by model OR index",
-                "[5] Delete an item by model OR index", "[6] Save data to file", "[7] Quit"};
+    public String[] getMenu() {
+        return this.menu;
     }
 
 
@@ -102,7 +112,6 @@ public class ArrayControllerMenu {
                         data[3], Double.parseDouble(data[5]), data[4]));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             showMessage(new String[]{"*** Error reading from file \"phoneData.csv\" ***"});
         }
     }
