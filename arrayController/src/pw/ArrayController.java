@@ -5,7 +5,7 @@ ArrayController.java
 package pw;
 
 public class ArrayController {
-    public CellPhone[] array = new CellPhone[0];
+    private CellPhone[] array = new CellPhone[0];
 
 
     //create empty ArrayController
@@ -15,6 +15,14 @@ public class ArrayController {
     ArrayController(CellPhone... items) {
         this.addCellPhone(items);
     }
+
+
+
+    //getter used by outside classes to access the array
+    public CellPhone[] array(){
+        return this.array;
+    }
+
 
 
 
@@ -37,11 +45,12 @@ public class ArrayController {
 
 
 
-
     //called without args to remove last element
     public void removeCellPhone() {
         removeCellPhone(this.array.length - 1);
     }
+
+
 
     //overloaded method removes target element
     public void removeCellPhone(int index) {
@@ -66,15 +75,16 @@ public class ArrayController {
 
 
 
+
+
     //search for target element based on model; returns index of 1st
-    // object with a matching model
+    //object with a matching model
     public int searchByModel(String target) {
         for (int i = 0; i < this.array.length; i++) {
             if (this.array[i].getModel().equals(target)) return i;
         }
         return -1;
     }
-
 
 
 
