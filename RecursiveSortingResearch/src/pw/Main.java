@@ -1,3 +1,12 @@
+/**
+ * Main.java
+ * 2020-07-29 pWurster
+ *
+ *
+ * This is the driver program that will be used to conduct research on the time
+ * complexity of various sorting algorithms
+ */
+
 package pw;
 
 import java.util.Random;
@@ -16,6 +25,8 @@ public class Main {
 
 
 
+
+
     //creates an array of ints
     private static int[] createArrayOfInts(int length) {
         Random rnd = new Random();
@@ -23,6 +34,8 @@ public class Main {
         for (int i = 0; i < length; i++) array[i] = rnd.nextInt();
         return array;
     }
+
+
 
 
 
@@ -46,6 +59,7 @@ public class Main {
                 Sorts.TESTS[Math.abs(choice)], "on " + Sorts.SIZES[sampleSize] +
                 " elements" + (choice < 0 ? " (reversed)" : "")});
 
+        //perform the test once for each sample
         for (int i = 1; i < sample + 1; i++) {
             System.out.printf("%3d : ", i);
 
@@ -89,20 +103,23 @@ public class Main {
 
             }
 
-            //calculate completion time
+            //calculate completion time in seconds
             time = (System.nanoTime() - time) / 1000000000.0;
             System.out.println(time);
 
+            //stop further testing after time limit is exceeded for the first time
             if (time > Sorts.TIME_LIMIT) {
                 showMessage(new String[]{"\n***     Tests aborted!     ***",
                         "*** Exceeded " + Sorts.TIME_LIMIT + " seconds ***\n"});
                 break;
             }
 
-        }
+        }//end for loop
 
 
     }
+
+
 
 
 
@@ -134,6 +151,10 @@ public class Main {
     }
 
 
+
+
+
+
     //main menu
     private static String[] getMenu() {
         return new String[]{
@@ -149,6 +170,10 @@ public class Main {
                 "\n( negative option reverses the sort )"
         };
     }
+
+
+
+
 
 
     //secondary menu
@@ -170,6 +195,9 @@ public class Main {
     }
 
 
+
+
+
     //grab user input for menu after prompting with message
     private static String grabInput(String[] message) {
         showMessage(message);
@@ -177,10 +205,15 @@ public class Main {
     }
 
 
+
+
+
     //show message line by line
     private static void showMessage(String[] message) {
         for (String line: message) System.out.println(line);
     }
+
+
 
 
     //exit code 88 is to signify intentional kill of the program
