@@ -7,16 +7,16 @@ public class Main {
 
     private static Scanner rawInput = new Scanner(System.in);
     private static String[] message = new String[10];
-    private static final int SAMPLE_NUM = 5;
+    private static final int SAMPLE_NUM = 50;
 
     public static void main(String[] args) {
-        //initiate test routines
+        //start the menu
         menuLoop();
     }
 
 
 
-
+    //creates an array of ints
     private static int[] createArrayOfInts(int length) {
         Random rnd = new Random();
         int[] array = new int[length];
@@ -26,55 +26,80 @@ public class Main {
 
 
 
-    private static void runTests(int choice, int sample, int sampleSize) {
-//        for (int s = 1; s < Sorts.SIZES.length; s++) {
 
-            showMessage(new String[]{"", "Running 5 sets of " + Sorts.TESTS[choice], "on " + Sorts.SIZES[sampleSize] + " elements"});
 
-            for (int i = 1; i < sample + 1; i++) {
-                System.out.print(i + " : ");
-                int[] testArray = createArrayOfInts(Sorts.SIZES[sampleSize]);
+    //runs the chosen test with sampleSize length arrays
+    private static void runTests(int choice, int sampleSize) {
 
-                //capture timestamp
-                double time = System.nanoTime();
+        //capture input regarding number of samples
+        int sample;
+        try {
+            message = new String[]{"How many times do you wanna run this test?"};
+            sample = Integer.parseInt(grabInput(message));
+        } catch (Exception e) {
+            showMessage(new String[]{"*** Using default ***"});
+            sample = SAMPLE_NUM;
+        }
 
-                switch (choice) {
-                    case 1:
-                        Sorts.bubbleSort(testArray);
-                        break;
-                    case 2:
-                        Sorts.selectionSort(testArray);
-                        break;
-                    case 3:
-                        Sorts.insertionSort(testArray);
-                        break;
-                    case 4:
-                        Sorts.mergeSort(testArray);
-                        break;
-                    default:
-                        Sorts.quickSort(testArray);
+        //prompt user
+        showMessage(new String[]{"", "Running " + sample + " sets of " +
+                Sorts.TESTS[Math.abs(choice)], "on " + Sorts.SIZES[sampleSize] +
+                " elements" + (choice < 0 ? " (reversed)" : "")});
 
-                }
+        for (int i = 1; i < sample + 1; i++) {
+            System.out.printf("%3d : ", i);
 
-                //calculate completion time
-                time = (System.nanoTime() - time) / 1000000000.0;
-                System.out.println(time);
+            //instantiate a new array of random ints
+            int[] testArray = createArrayOfInts(Sorts.SIZES[sampleSize]);
 
-                if (time > 300.0) {
-                    showMessage(new String[]{"", "*** Tests aborted! ***", "*** Exceeded 5 min threshold ***", ""});
+            //capture timestamp
+            double time = System.nanoTime();
+
+            //initiate chosen test routine
+            switch (choice) {
+                case 1:
+                    Sorts.bubbleSort(testArray);
                     break;
-                }
+                case -1:
+                    Sorts.bubbleSort(testArray, true);
+                    break;
+                case 2:
+                    Sorts.selectionSort(testArray);
+                    break;
+                case -2:
+                    Sorts.selectionSort(testArray, true);
+                    break;
+                case 3:
+                    Sorts.insertionSort(testArray);
+                    break;
+                case -3:
+                    Sorts.insertionSort(testArray, true);
+                    break;
+                case 4:
+                    Sorts.mergeSort(testArray);
+                    break;
+                case -4:
+                    Sorts.mergeSort(testArray, true);
+                    break;
+                case 5:
+                    Sorts.quickSort(testArray);
+                    break;
+                default: //case -5
+                    Sorts.quickSort(testArray, true);
 
             }
 
+            //calculate completion time
+            time = (System.nanoTime() - time) / 1000000000.0;
+            System.out.println(time);
 
+            if (time > Sorts.TIME_LIMIT) {
+                showMessage(new String[]{"\n***     Tests aborted!     ***",
+                        "*** Exceeded " + Sorts.TIME_LIMIT + " seconds ***\n"});
+                break;
+            }
 
-
-
-//        }
-
-
-
+        }
 
 
     }
@@ -87,18 +112,20 @@ public class Main {
             try {
                 message = getMenu();
                 int choice = Integer.parseInt(grabInput(message));
+                System.out.println(choice);
 
                 //quit if selection out of bounds
-                if (choice < 1 || choice > 5) exit();
+                if (choice < -5 || choice > 5 || choice == 0) exit();
 
                 message = getSampleSize();
                 int sampleSize = Integer.parseInt(grabInput(message));
 
                 //quit if selection out of bounds
                 if (sampleSize < 1 || sampleSize > 8) exit();
+                System.out.println(sampleSize);
 
                 //run selected test SAMPLE_NUM times on sampleSize elements
-                runTests(choice, SAMPLE_NUM, sampleSize);
+                runTests(choice, sampleSize);
 
             } catch (Exception e) {
                 showMessage(new String[]{"*** Invalid entry ***"});
@@ -107,21 +134,24 @@ public class Main {
     }
 
 
-
+    //main menu
     private static String[] getMenu() {
         return new String[]{
                 "\n-------------------------",
                 "  Test which algorithm?",
                 "-------------------------",
-                "[1] bubble sort",
-                "[2] selection sort",
-                "[3] insertion sort",
-                "[4] merge sort",
-                "[5] quick sort",
-                "[6] Quit"
+                "[1] bubble sort     [-1]",
+                "[2] selection sort  [-2]",
+                "[3] insertion sort  [-3]",
+                "[4] merge sort      [-4]",
+                "[5] quick sort      [-5]",
+                "[6] Quit",
+                "\n( negative option reverses the sort )"
         };
     }
 
+
+    //secondary menu
     private static String[] getSampleSize() {
         return new String[]{
                 "\n-------------------------",
@@ -158,13 +188,6 @@ public class Main {
         rawInput.close();
         System.exit(88);
     }
-
-
-
-
-
-
-
 
 
 

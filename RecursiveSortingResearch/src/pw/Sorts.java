@@ -16,6 +16,7 @@ package pw;
 
 public abstract class Sorts {
 
+    public static final double TIME_LIMIT = 300.0; //in seconds
     public static final String[] TESTS = new String[]{"", "bubble sort", "selection sort", "insertion sort", "merge sort", "quick sort" };
     public static final int[] SIZES = new int[]{0, 10000, 20000, 100000, 200000, 1000000, 2000000, 10000000, 20000000};
 
@@ -28,31 +29,32 @@ public abstract class Sorts {
      * @param reverse [optional]
      */
      public static void bubbleSort(int[] array, boolean reverse) {
-        //boolean flag allows shortcut termination if sort is completed before full iteration
-        boolean swapped = true;
+         //boolean flag allows shortcut termination if sort is completed before full iteration
+         boolean swapped = true;
 
-        while (swapped) {
+         while (swapped) {
             swapped = false;
 
-            //iterate once for every element
-            for (int i = 0; i < array.length - 1; i++) {
-                //if the current element is larger than the next element...
-                if (array[i] > array[i + 1] && reverse == false || array[i] < array[i + 1] && reverse == true) {
-                    //swap elements
-                    int temp = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = temp;
+             //iterate once for every element
+             for (int i = 0; i < array.length - 1; i++) {
 
-                    //activate flag to quit early
-                    swapped = true;
-                }
-            }
-        }//end while
+                 //if the current element is larger than the next element...
+                 if (array[i] > array[i + 1] && reverse == false || array[i] < array[i + 1] && reverse == true) {
+                     //swap elements
+                     int temp = array[i];
+                     array[i] = array[i + 1];
+                     array[i + 1] = temp;
 
+                     //activate flag to quit early
+                     swapped = true;
+                 }
+             }
+         }//end while
     }
     //overload function to allow default param
     public static void bubbleSort(int[] array) {
-        bubbleSort(array, false);
+         double startTime = System.nanoTime();
+         bubbleSort(array, false);
     }
 
 
