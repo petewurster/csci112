@@ -1,6 +1,6 @@
 /**
  * Sorts.java
- * 2020-07-29 pWurster
+ * 2020-07-28 pWurster
  *
  *
  * This program holds my implementations of several in-place sorting methods:
@@ -15,7 +15,7 @@ package pw;
 
 
 public abstract class Sorts {
-
+    //class constants
     public static final double TIME_LIMIT = 300.0; //in seconds
     public static final String[] TESTS = new String[]{"", "bubble sort", "selection sort", "insertion sort", "merge sort", "quick sort" };
     public static final int[] SIZES = new int[]{0, 10000, 20000, 100000, 200000, 1000000, 2000000, 10000000, 20000000};

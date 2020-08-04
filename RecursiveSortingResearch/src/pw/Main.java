@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
+    //init globals
     private static Scanner rawInput = new Scanner(System.in);
     private static String[] message = new String[10];
     private static final int SAMPLE_NUM = 50;
@@ -61,7 +61,8 @@ public class Main {
 
         //perform the test once for each sample
         for (int i = 1; i < sample + 1; i++) {
-            System.out.printf("%3d : ", i);
+            //this makes the results easier to read, but interferes with copy/paste efforts
+//            System.out.printf("%3d : ", i);
 
             //instantiate a new array of random ints
             int[] testArray = createArrayOfInts(Sorts.SIZES[sampleSize]);
@@ -129,7 +130,6 @@ public class Main {
             try {
                 message = getMenu();
                 int choice = Integer.parseInt(grabInput(message));
-                System.out.println(choice);
 
                 //quit if selection out of bounds
                 if (choice < -5 || choice > 5 || choice == 0) exit();
@@ -139,7 +139,6 @@ public class Main {
 
                 //quit if selection out of bounds
                 if (sampleSize < 1 || sampleSize > 8) exit();
-                System.out.println(sampleSize);
 
                 //run selected test SAMPLE_NUM times on sampleSize elements
                 runTests(choice, sampleSize);
