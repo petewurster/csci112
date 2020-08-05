@@ -1,6 +1,6 @@
 /**
  * RemoteControl.java
- * 2020-08-04 pWurster
+ * 2020-08-05 pWurster
  *
  * This program modifies its predecessor to provide event listening capability
  * to the RemoteControl GUI.  Event information is displayed in the console.

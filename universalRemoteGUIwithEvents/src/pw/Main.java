@@ -1,3 +1,10 @@
+/**
+ *Main.java
+ *2020-08-04 pWurster
+ *
+ *Instantiate a RemoteControl GUI
+ */
+
 package pw;
 
 public class Main {
