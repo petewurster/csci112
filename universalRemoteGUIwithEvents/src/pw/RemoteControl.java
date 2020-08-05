@@ -2,16 +2,22 @@
  * RemoteControl.java
  * 2020-08-04 pWurster
  *
- * This program builds out a GUI for a RemoteControl interface (like that used
- * with a television set)
+ * This program modifies its predecessor to provide event listening capability
+ * to the RemoteControl GUI.  Event information is displayed in the console.
  */
+
+
 
 package pw;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class RemoteControl extends JFrame {
+public class RemoteControl extends JFrame implements ActionListener, ItemListener {
 
     private static final String[] TOP_BUTTONS = new String[]{
             "PWR",      "a", "b", "c"
@@ -34,6 +40,7 @@ public class RemoteControl extends JFrame {
     private JPanel topPanel = new JPanel();
     private JPanel bottomPanel = new JPanel();
 
+    private boolean menuToggle = false;
 
 
 
@@ -56,7 +63,7 @@ public class RemoteControl extends JFrame {
 
 
 
-    //build panels
+    //build panels and apply appropriate listeners
     private void buildPanels() {
 
         //populate top panel by looping thru top button list
@@ -67,12 +74,14 @@ public class RemoteControl extends JFrame {
             if (source.equals(TOP_BUTTONS[0])) {
                 JButton item = new JButton(TOP_BUTTONS[0]);
                 this.topPanel.add(item);
+                item.addActionListener(this);
 
             //or radio button
             } else {
                 JRadioButton radio = new JRadioButton(source);
                 sources.add(radio);
                 this.topPanel.add(radio);
+                radio.addItemListener(this);
             }
         }
 
@@ -86,6 +95,7 @@ public class RemoteControl extends JFrame {
             if (button.getText().equals(MAIN_BUTTONS[9])) {
                 JCheckBox check = new JCheckBox(MAIN_BUTTONS[9]);
                 this.mainPanel.add(check);
+                check.addItemListener(this);
 
             //or button
             } else {
@@ -99,6 +109,7 @@ public class RemoteControl extends JFrame {
         for (String button: BOTTOM_BUTTONS) {
             JButton item = new JButton(button);
             this.bottomPanel.add(item);
+            item.addActionListener(this);
         }
 
 
@@ -112,8 +123,73 @@ public class RemoteControl extends JFrame {
         JButton[] buttons = new JButton[MAIN_BUTTONS.length];
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(MAIN_BUTTONS[i]);
+            buttons[i].addActionListener(this);
         }
         return buttons;
+    }
+
+
+
+
+
+
+    @Override
+    //for buttons
+    public void actionPerformed(ActionEvent e) {
+
+        //isolate which items have been activated based on label text
+        String active = e.getActionCommand();
+
+        //test if dual-function button action is required
+        if (active.equals(MAIN_BUTTONS[1]) || active.equals(MAIN_BUTTONS[3]) || active.equals(MAIN_BUTTONS[4]) ||
+                active.equals(MAIN_BUTTONS[5]) || active.equals(MAIN_BUTTONS[7])) {
+            System.out.println("you have pressed a button: " + (this.menuToggle ? active.split(" ")[1] : active.split(" ")[0]));
+
+
+        //exit program if PWR button is pressed; immune from menuToggle deactivation
+        } else if (active.equals(TOP_BUTTONS[0])) {
+            System.out.println("powering off...");
+            System.exit(88);
+
+
+        //volume controls are also immune from menuToggle deactivation
+        } else if (active.equals(BOTTOM_BUTTONS[0]) || active.equals(BOTTOM_BUTTONS[1])) {
+            System.out.println("volume control: " + (active.equals(BOTTOM_BUTTONS[0]) ? "DOWN" : "UP"));
+
+
+
+        //handle all other single-function button features
+        } else {
+            System.out.println(this.menuToggle ? "the " + active + " button is currently disabled"
+                    : "you have pressed a button: " + active);
+        }
+    }
+
+
+
+
+
+
+
+    @Override
+    //for checks/radios
+    public void itemStateChanged(ItemEvent e) {
+
+        //isolate which items have been activated based on label text
+        String active = e.getSource().toString().split("text=")[1];
+        active = active.substring(0, active.length() - 1);
+
+
+        //update status of menuToggle property
+        if (active.equals(MAIN_BUTTONS[9])) {
+            this.menuToggle = !this.menuToggle;
+                System.out.println("menu toggled: " + (e.getStateChange() == ItemEvent.SELECTED ? "ON" : "OFF"));
+
+
+        //handle radio button features
+        }else {
+            if (e.getStateChange() == ItemEvent.SELECTED) System.out.println("input source changed to: " + active);
+        }
     }
 
 
