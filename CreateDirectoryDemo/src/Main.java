@@ -19,13 +19,20 @@ import javax.swing.*;
 import java.io.*;
 
 public class Main {
+    
     //Establish the location of the parent for the new set of directories.
     public static final String DEFAULT_ROOT = "/home/pw2/Desktop/";
 
     public static void main(String[] args) {
-        String message = "Where do you want to create your new directories?";
+        String message = "Where do you want to create your new directories?\n" +
+                "(this location MUST already exist on your computer)";
         //uses JOptionPane
         String location = grabInput(message, DEFAULT_ROOT);
+
+        //if user omits "/" in root location add it now
+        if (!location.substring(location.length() - 1).equals("/") ||
+                !location.substring(location.length() - 1).equals("\\"))
+            location += "/";
 
         //build out a string because number of directories is unknown
         String data = "";
@@ -35,7 +42,7 @@ public class Main {
                 if (data.substring(data.length() - 9).equals("finished\n")) break;
             }
             //message includes data to show what has already been entered
-            message = "Create your directories, parent directories must\n" +
+            message = "Create your directories, parent directories MUST\n" +
                     "be created before any child directories - ex:\naaa\naaa/bbb/\naaa/bbb/ccc\n\n" +
                     "Type \"finished\" when you're done\n\n" + data;
             data += grabInput(message, "") + "\n";
@@ -49,8 +56,12 @@ public class Main {
 
         // create new directories based root location and the file names in the array
         for (int i = 0 ; i < newFolders.length; i++) {
+            //sanitize backslashes
+            String cleanName = (location + folderPaths[i])
+                    .replaceAll("[\\\\]", "/");
+
             // create a File object for this new directory
-            newFolders[i]  = new File( location + folderPaths[i] ) ;
+            newFolders[i]  = new File(cleanName) ;
 
             // make the new directory
             newFolders[i].mkdir();
